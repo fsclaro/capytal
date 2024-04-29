@@ -29,8 +29,8 @@ class Movimento extends Model
     protected function casts(): array
     {
         return [
-            'dt_vencto' => 'datetime:d/m/Y',
-            'dt_pagto' => 'datetime:d/m/Y',
+            'dt_vencto'  => 'datetime:d/m/Y',
+            'dt_pagto'   => 'datetime:d/m/Y',
             'created_at' => 'datetime:d/m/Y H:i:s',
             'updated_at' => 'datetime:d/m/Y H:i:s',
             'deleted_at' => 'datetime:d/m/Y H:i:s'
