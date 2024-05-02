@@ -17,8 +17,8 @@ class Categoria extends Model
         'user_id',
         'tipo',
         'descricao',
-        'cor',
         'dominio',
+        'cor',
         'created_at',
         'updated_at',
     ];

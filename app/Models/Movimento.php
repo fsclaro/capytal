@@ -18,6 +18,7 @@ class Movimento extends Model
         'categoria_id',
         'tipo_documento_id',
         'descricao',
+        'tipo_movimento',
         'dt_vencto',
         'vl_vencto',
         'dt_pagto',
@@ -52,7 +53,7 @@ class Movimento extends Model
         return $this->belongsTo(Conta::class);
     }
 
-    public function tipoDocumento(): BelongsTo
+    public function tipo_documento(): BelongsTo
     {
         return $this->belongsTo(TipoDocumento::class);
     }

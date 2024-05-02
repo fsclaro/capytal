@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('categoria_id')->constrained();
             $table->foreignId('tipo_documento_id')->constrained();
             $table->string('descricao');
+            $table->string('tipo_movimento');
             $table->date('dt_vencto');
             $table->decimal('vl_vencto',10,2);
             $table->date('dt_pagto')->nullable();

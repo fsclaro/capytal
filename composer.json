@@ -9,10 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ariaieboy/filament-currency": "^1.4",
         "doctrine/dbal": "^4.0",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "malzariey/filament-daterangepicker-filter": "^2.6",
+        "pxlrbt/filament-excel": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
@@ -20,6 +23,7 @@
         "larastan/larastan": "^2.9",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
+        "lucascudo/laravel-pt-br-localization": "^2.2",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
@@ -42,10 +46,14 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan filament:upgrade",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models -N"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models -N"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -53,7 +61,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
+            "@php artisan migrate --graceful --ansi",
+            "@php artisan ide-helper:generate"
         ]
     },
     "extra": {

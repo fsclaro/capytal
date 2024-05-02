@@ -16,7 +16,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Conta não definida',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -24,7 +24,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Carteira',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -32,7 +32,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Banco Itaú',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -40,7 +40,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Banco Santander',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -48,7 +48,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Banco do Brasil',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -56,7 +56,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 1,
             'descricao' => 'Nubank',
-            'dominio' => 'system',
+            'dominio' => 'Sistema',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -64,7 +64,7 @@ class ContaSeeder extends Seeder
         DB::table('contas')->insert([
             'user_id' => 2,
             'descricao' => 'CEF',
-            'dominio' => 'user',
+            'dominio' => 'Pessoal',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

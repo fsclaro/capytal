@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('descricao');
-            $table->string('dominio')->default('user');
+            $table->string('dominio')->default('Pessoal');
             $table->timestamps();
             $table->softDeletes();
         });

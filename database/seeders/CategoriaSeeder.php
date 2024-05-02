@@ -174,13 +174,16 @@ class CategoriaSeeder extends Seeder
         $categorias[] = ['tipo' => 'DESPESA', 'descricao' => 'Investimentos/Tesouro Direto'];
         $categorias[] = ['tipo' => 'DESPESA', 'descricao' => 'Investimentos/Outros Investimentos'];
 
+        // Despesas - Diversos
+        $categorias[] = ['tipo' => 'DESPESA', 'descricao' => 'Contas/Boleto'];
+
         foreach ($categorias as $categoria) {
             DB::table('categorias')->insert([
                 'user_id' => 1,
                 'tipo' => $categoria['tipo'],
                 'descricao' => $categoria['descricao'],
-                'cor' => ($categoria['tipo'] === 'RECEITA') ? '#28a745' : '#dc3545',
-                'dominio' => 'system',
+                'cor' => ($categoria['tipo'] === 'RECEITA') ? 'success' : 'danger',
+                'dominio' => 'Sistema',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

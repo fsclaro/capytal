@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('tipo');
-            $table->string('descricao');
-            $table->string('cor')->default('#000000');
-            $table->string('dominio')->default('user');
+            $table->string('descricao')->unique();
+            $table->string('cor');
+            $table->string('dominio')->default('Pessoal');
             $table->timestamps();
             $table->softDeletes();
         });

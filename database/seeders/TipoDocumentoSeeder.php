@@ -14,11 +14,12 @@ class TipoDocumentoSeeder extends Seeder
     public function run(): void
     {
         $tipos_documentos[] = [ 'descricao' => 'Tipo não definido' ];
+        $tipos_documentos[] = [ 'descricao' => 'Crédito em Conta Corrente' ];
         $tipos_documentos[] = [ 'descricao' => 'Em Dinheiro' ];
         $tipos_documentos[] = [ 'descricao' => 'Boleto' ];
         $tipos_documentos[] = [ 'descricao' => 'Pix' ];
-        $tipos_documentos[] = [ 'descricao' => 'Débito Automático' ];
         $tipos_documentos[] = [ 'descricao' => 'Transf. Bancária' ];
+        $tipos_documentos[] = [ 'descricao' => 'Débito Automático' ];
         $tipos_documentos[] = [ 'descricao' => 'Cheque' ];
         $tipos_documentos[] = [ 'descricao' => 'Cartão de Crédito' ];
 
@@ -26,7 +27,7 @@ class TipoDocumentoSeeder extends Seeder
             DB::table('tipo_documentos')->insert([
                 'user_id' => 1,
                 'descricao' => $tipo_documento['descricao'],
-                'dominio' => 'system',
+                'dominio' => 'Sistema',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

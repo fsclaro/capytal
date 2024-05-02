@@ -17,6 +17,7 @@ class TipoDocumento extends Model
         'user_id',
         'descricao',
         'dominio',
+        'cor',
         'created_at',
         'updated_at',
     ];
