@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use Carbon\Carbon;
 use App\Models\Movimento;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class MovimentoChart002 extends ChartWidget
 {
@@ -12,8 +13,25 @@ class MovimentoChart002 extends ChartWidget
 
     protected static ?int $sort = 1;
 
+    public ?string $filter = '2024';
+
+    protected function getFilters(): ?array
+    {
+        $anos = $this->getAnos();
+
+        $options = [];
+
+        foreach ($anos as $ano) {
+            $options[$ano->anos] = $ano->anos;
+        }
+        return $options;
+    }
+
+
     protected function getData(): array
     {
+        $this->filter = $this->filter ?? Carbon::now()->format('Y');
+
         $data = $this->getMovimentosPorMes();
 
         return [
@@ -48,12 +66,11 @@ class MovimentoChart002 extends ChartWidget
         $receitasPorMes = [];
         $despesasPorMes = [];
         $saldoPorMes = [];
-        $agora = Carbon::now();
+        $ano = $this->filter;
 
         $meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
         for($mes=1; $mes<=12; $mes++) {
-                $ano = $agora->format('Y');
                 $soma = Movimento::whereMonth('dt_vencto', $mes)
                     ->whereYear('dt_vencto', $ano)
                     ->where('tipo_movimento', 'DESPESA')
@@ -78,5 +95,15 @@ class MovimentoChart002 extends ChartWidget
             'saldoPorMes' => $saldoPorMes,
             'meses' => $meses
         ];
+    }
+
+    private function getAnos()
+    {
+        $anos = DB::table('MOVIMENTOS')
+            ->selectRaw('DISTINCT YEAR(dt_vencto) AS anos')
+            ->orderBy('anos')
+            ->get();
+
+        return $anos;
     }
 }

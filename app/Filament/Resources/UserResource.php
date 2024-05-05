@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ColorPicker;
@@ -62,6 +63,15 @@ class UserResource extends Resource
                         ->maxLength(255)
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                         ->dehydrated(fn ($state) => filled($state)),
+
+                    FileUpload::make('avatar_url')
+                        ->label('Foto do Perfil')
+                        ->avatar()
+                        ->image()
+                        ->imageEditor()
+                        ->columnSpanFull()
+                        ->alignCenter()
+                        ->directory('avatars')
                 ])->columns(3),
 
                 Fieldset::make('Perfil de Acesso')->schema([
@@ -76,31 +86,41 @@ class UserResource extends Resource
                         ->required()
                         ->default(true)
                         ->columnSpan(1),
-
-                    // Forms\Components\Select::make('roles')
-                    //     ->label('Papel')
-                    //     ->relationship('roles', 'name')
-                    //     ->preload()
-                    //     ->required(),
-
-                    // Forms\Components\Select::make('permissions')
-                    //     ->label('Permissões')
-                    //     ->multiple()
-                    //     ->relationship('permissions', 'name')
-                    //     ->preload(),
                 ])->columns(2),
 
                 Fieldset::make('settings')
-                    ->label('Configurações')
+                    ->label('Configurações do Tema')
                     ->schema([
-                        ColorPicker::make('settings.color')
-                            ->label('Cor do tema')
-                            ->columnSpanFull()
-                            ->inlineLabel(),
-                            // ->formatStateUsing(
-                            //     fn (?string $state): string => $state ?? config('filament.theme.colors.primary')
-                            // ),
-                    ])
+                        ColorPicker::make('settings.colors.success')
+                            ->label('Sucesso')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.success')),
+
+                        ColorPicker::make('settings.colors.danger')
+                            ->label('Perigo')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.danger')),
+
+                        ColorPicker::make('settings.colors.warning')
+                            ->label('Aviso')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.warning')),
+
+                        ColorPicker::make('settings.colors.primary')
+                            ->label('Primária')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.primary')),
+
+                        ColorPicker::make('settings.colors.gray')
+                            ->label('Cinza')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.gray')),
+
+                        ColorPicker::make('settings.colors.info')
+                            ->label('Informação')
+                            ->required()
+                            ->formatStateUsing(fn (?string $state): string => $state ?? config('filament.theme.colors.info')),
+                    ])->columns(3),
             ]);
     }
 
@@ -108,6 +128,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar_url')
+                    ->label('Foto')
+                    ->circular()
+                    ->width('30px')
+                    ->height('30px')
+                    ,
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome do Usuário')
                     ->sortable()
@@ -150,37 +176,37 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-					Tables\Actions\Action::make('inativa')
-						->label('Inativa Usuário')
-						->icon('heroicon-s-x-circle')
-						->visible(function (User $user) {
+                    Tables\Actions\Action::make('inativa')
+                        ->label('Desativar Usuário')
+                        ->icon('heroicon-s-x-circle')
+                        ->visible(function (User $user) {
                             if ($user->id === Auth::id()) {
                                 return false;
                             }
                             return $user->is_active;
                         })
-						->action(
-							function (User $user) {
-								$user->is_active = false;
-								$user->save();
-							}
-						),
+                        ->action(
+                            function (User $user) {
+                                $user->is_active = false;
+                                $user->save();
+                            }
+                        ),
 
-					Tables\Actions\Action::make('ativa')
-						->label('Ativa Usuário')
-						->icon('heroicon-s-check-circle')
-						->visible(function (User $user) {
+                    Tables\Actions\Action::make('ativa')
+                        ->label('Ativar Usuário')
+                        ->icon('heroicon-s-check-circle')
+                        ->visible(function (User $user) {
                             if ($user->id === Auth::id()) {
                                 return false;
                             }
                             return !$user->is_active;
                         })
-						->action(
-							function (User $user) {
-								$user->is_active = true;
-								$user->save();
-							}
-						),
+                        ->action(
+                            function (User $user) {
+                                $user->is_active = true;
+                                $user->save();
+                            }
+                        ),
 
 
 

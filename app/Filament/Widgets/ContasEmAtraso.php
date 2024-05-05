@@ -23,7 +23,7 @@ class ContasEmAtraso extends BaseWidget
                     ->where('dt_pagto', null)
                     ->where('user_id', auth()->id())
             )
-            ->defaultPaginationPageOption(10)
+            ->defaultPaginationPageOption(5)
             ->defaultSort('dt_vencto', 'asc')
             ->columns([
                 Tables\Columns\TextColumn::make('dt_vencto')

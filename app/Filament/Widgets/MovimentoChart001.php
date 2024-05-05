@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use Carbon\Carbon;
 use App\Models\Movimento;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class MovimentoChart001 extends ChartWidget
 {
@@ -12,22 +13,25 @@ class MovimentoChart001 extends ChartWidget
 
     protected static ?int $sort = 1;
 
-    public ?string $filter = 'today';
+    public ?string $filter = '2024';
 
-    // protected function getFilters(): ?array
-    // {
-    //     return [
-    //         'today' => 'Today',
-    //         'week' => 'Last week',
-    //         'month' => 'Last month',
-    //         'year' => 'This year',
-    //     ];
-    // }
+    protected function getFilters(): ?array
+    {
+        $anos = $this->getAnos();
+
+        $options = [];
+
+        foreach ($anos as $ano) {
+            $options[$ano->anos] = $ano->anos;
+        }
+        return $options;
+    }
 
     protected function getData(): array
     {
+        $this->filter = $this->filter ?? Carbon::now()->format('Y');
+
         $data = $this->getMovimentosPorMes();
-        // $activeFilter = $this->filter;
 
         return [
             'datasets' => [
@@ -55,17 +59,19 @@ class MovimentoChart001 extends ChartWidget
     {
         $receitasPorMes = [];
         $despesasPorMes = [];
-        $agora = Carbon::now();
+        $ano = $this->filter;
 
         $meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
+
         for ($mes = 1; $mes <= 12; $mes++) {
-            $ano = $agora->format('Y');
+            // $ano = $agora->format('Y');
             $count = Movimento::whereMonth('dt_vencto', $mes)
                 ->whereYear('dt_vencto', $ano)
                 ->where('tipo_movimento', 'DESPESA')
                 ->where('user_id', auth()->id())
                 ->count();
+
             array_push($despesasPorMes, $count);
 
             $count = Movimento::whereMonth('dt_vencto', $mes)
@@ -81,5 +87,15 @@ class MovimentoChart001 extends ChartWidget
             'despesasPorMes' => $despesasPorMes,
             'meses' => $meses
         ];
+    }
+
+    private function getAnos()
+    {
+        $anos = DB::table('MOVIMENTOS')
+            ->selectRaw('DISTINCT YEAR(dt_vencto) AS anos')
+            ->orderBy('anos')
+            ->get();
+
+        return $anos;
     }
 }

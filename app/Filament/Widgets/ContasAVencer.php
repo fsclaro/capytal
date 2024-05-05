@@ -14,6 +14,7 @@ class ContasAVencer extends BaseWidget
 
     protected int | string | array $columnSpan = 'full';
 
+
     public function table(Table $table): Table
     {
         return $table
@@ -23,7 +24,7 @@ class ContasAVencer extends BaseWidget
                     ->where('dt_pagto', null)
                     ->where('user_id', auth()->id())
             )
-            ->defaultPaginationPageOption(10)
+            ->defaultPaginationPageOption(5)
             ->defaultSort('dt_vencto', 'asc')
             ->columns([
                 Tables\Columns\TextColumn::make('dt_vencto')

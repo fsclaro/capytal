@@ -5,10 +5,13 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use App\Filament\Pages\Profile;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\Pages\Auth\Register;
 use App\Filament\Widgets\StatsOverview;
+use App\Http\Middleware\FilamentSettings;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -18,6 +21,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class AdminPanelProvider extends PanelProvider
@@ -26,24 +30,24 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('dashboard')
+            ->path('dashboard')
             ->login()
             ->registration()
             ->passwordReset()
+            ->profile(Profile::class)
+            ->emailVerification()
             ->font('Roboto')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarFullyCollapsibleOnDesktop()
             ->favicon('images/favicon/favicon-32x32.png')
             ->colors([
-                'primary' => Color::Violet,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Configurações')
-                    ->icon('heroicon-o-cog')
-                    ->url(''),
-
+                'danger' => auth()->user()?->settings['colors']['danger'] ?? config('filament.theme.colors.danger'),
+                'gray' => auth()->user()?->settings['colors']['gray'] ?? config('filament.theme.colors.gray'),
+                'info' => auth()->user()?->settings['colors']['info'] ?? config('filament.theme.colors.info'),
+                'success' => auth()->user()?->settings['colors']['success'] ?? config('filament.theme.colors.success'),
+                'warning' => auth()->user()?->settings['colors']['warning'] ?? config('filament.theme.colors.warning'),
+                'primary' => auth()->user()?->settings['colors']['primary'] ?? config('filament.theme.colors.primary'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -52,7 +56,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                StatsOverview::class,
+                //
+            ])
+            ->plugins([
+                FilamentApexChartsPlugin::make()
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -64,6 +71,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                FilamentSettings::class
             ])
             ->authMiddleware([
                 Authenticate::class,

@@ -3,12 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Filament\Panel;
+use Filament\Facades\Filament;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 {
     use HasFactory;
     use Notifiable;
@@ -28,6 +33,7 @@ class User extends Authenticatable
         'avatar_url',
         'created_at',
         'updated_at',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -49,6 +55,36 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->is_admin = false;
+            $user->is_active = true;
+            $user->email_verified_at = now();
+            $user->created_at = now();
+            $user->updated_at = now();
+            $user->settings = null;
+        });
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->name;
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar_url
+            ? env('APP_URL') . '/storage/' . $this->avatar_url
+            : 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?d=mp';
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isActive() && $this->hasVerifiedEmail();
+    }
 
     public function isAdmin(): bool
     {
