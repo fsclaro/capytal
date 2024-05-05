@@ -39,17 +39,17 @@ class MovimentoChart002 extends ChartWidget
                 [
                     'label'       => 'Receitas',
                     'data'        => $data['receitasPorMes'],
-                    'borderColor' => auth()->user()->settings['colors']['primary']
+                    'borderColor' => auth()->user()->settings['colors']['primary'] ?? config('filament.theme.colors.primary'),
                 ],
                 [
                     'label'       => 'Despesas',
                     'data'        => $data['despesasPorMes'],
-                    'borderColor' => auth()->user()->settings['colors']['danger']
+                    'borderColor' => auth()->user()->settings['colors']['danger'] ?? config('filament.theme.colors.danger'),
                 ],
                 [
                     'label'       => 'Saldo',
                     'data'        => $data['saldoPorMes'],
-                    'borderColor' => auth()->user()->settings['colors']['success']
+                    'borderColor' => auth()->user()->settings['colors']['success'] ?? config('filament.theme.colors.success'),
                 ]
             ],
             'labels' => $data['meses']
