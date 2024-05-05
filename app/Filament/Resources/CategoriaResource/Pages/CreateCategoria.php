@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\CategoriaResource\Pages;
 
-use Filament\Actions;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\CategoriaResource;
@@ -15,7 +14,7 @@ class CreateCategoria extends CreateRecord
     {
         $data['user_id'] = auth()->id();
         $data['dominio'] = Auth::user()->isAdmin() ? 'Sistema' : 'Pessoal';
-        $data['cor'] = $data['tipo'] === 'RECEITA' ? 'success' : 'danger';
+        $data['cor']     = $data['tipo'] === 'RECEITA' ? 'success' : 'danger';
 
         return $data;
     }

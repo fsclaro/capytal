@@ -11,7 +11,7 @@ class MovimentoOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $total = Movimento::where('user_id', Auth::user()->id)->count();
+        $total   = Movimento::where('user_id', Auth::user()->id)->count();
         $aVencer = Movimento::where('user_id', Auth::user()->id)
             ->where('dt_vencto', '>=', now())
             ->whereNull('dt_pagto')

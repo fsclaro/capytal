@@ -13,17 +13,15 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ContaResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ContaResource\RelationManagers;
 
 class ContaResource extends Resource
 {
     protected static ?string $model = Conta::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Cadastros';
-    protected static ?string $modelLabel = 'Conta';
-    protected static ?string $pluralModelLabel = 'Contas';
+    protected static ?string $navigationIcon      = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup     = 'Cadastros';
+    protected static ?string $modelLabel          = 'Conta';
+    protected static ?string $pluralModelLabel    = 'Contas';
     protected static bool $hasTitleCaseModelLabel = false;
 
     // public static function getNavigationBadge(): ? string
@@ -119,9 +117,9 @@ class ContaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContas::route('/'),
+            'index'  => Pages\ListContas::route('/'),
             'create' => Pages\CreateConta::route('/create'),
-            'edit' => Pages\EditConta::route('/{record}/edit'),
+            'edit'   => Pages\EditConta::route('/{record}/edit'),
         ];
     }
 }

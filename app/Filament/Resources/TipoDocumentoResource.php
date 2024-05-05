@@ -12,18 +12,15 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TipoDocumentoResource\Pages;
-use App\Filament\Resources\TipoDocumentoResource\RelationManagers;
-use Filament\Forms\Components\ColorPicker;
 
 class TipoDocumentoResource extends Resource
 {
-    protected static ?string $model = TipoDocumento::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Cadastros';
-    protected static ?string $modelLabel = 'Tipo de Documento';
-    protected static ?string $pluralModelLabel = 'Tipos de Documentos';
+    protected static ?string $model               = TipoDocumento::class;
+    protected static ?string $navigationIcon      = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup     = 'Cadastros';
+    protected static ?string $modelLabel          = 'Tipo de Documento';
+    protected static ?string $pluralModelLabel    = 'Tipos de Documentos';
     protected static bool $hasTitleCaseModelLabel = false;
 
     // public static function getNavigationBadge(): ? string
@@ -121,9 +118,9 @@ class TipoDocumentoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTipoDocumentos::route('/'),
+            'index'  => Pages\ListTipoDocumentos::route('/'),
             'create' => Pages\CreateTipoDocumento::route('/create'),
-            'edit' => Pages\EditTipoDocumento::route('/{record}/edit'),
+            'edit'   => Pages\EditTipoDocumento::route('/{record}/edit'),
         ];
     }
 }

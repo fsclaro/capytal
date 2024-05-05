@@ -36,14 +36,14 @@ class MovimentoChart001 extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Receitas',
-                    'data' => $data['receitasPorMes'],
-                    'borderColor' => 'rgb(54, 162, 235)'
+                    'label'       => 'Receitas',
+                    'data'        => $data['receitasPorMes'],
+                    'borderColor' => auth()->user()->settings['colors']['primary']
                 ],
                 [
-                    'label' => 'Despesas',
-                    'data' => $data['despesasPorMes'],
-                    'borderColor' => 'rgb(255, 99, 132)'
+                    'label'       => 'Despesas',
+                    'data'        => $data['despesasPorMes'],
+                    'borderColor' => auth()->user()->settings['colors']['danger']
                 ]
             ],
             'labels' => $data['meses']
@@ -59,33 +59,32 @@ class MovimentoChart001 extends ChartWidget
     {
         $receitasPorMes = [];
         $despesasPorMes = [];
-        $ano = $this->filter;
+        $ano            = $this->filter;
 
         $meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
 
         for ($mes = 1; $mes <= 12; $mes++) {
-            // $ano = $agora->format('Y');
-            $count = Movimento::whereMonth('dt_vencto', $mes)
+            $countDespesa = Movimento::whereMonth('dt_vencto', $mes)
                 ->whereYear('dt_vencto', $ano)
                 ->where('tipo_movimento', 'DESPESA')
                 ->where('user_id', auth()->id())
                 ->count();
 
-            array_push($despesasPorMes, $count);
+            array_push($despesasPorMes, $countDespesa);
 
-            $count = Movimento::whereMonth('dt_vencto', $mes)
+            $countReceita = Movimento::whereMonth('dt_vencto', $mes)
                 ->whereYear('dt_vencto', $ano)
                 ->where('tipo_movimento', 'RECEITA')
                 ->where('user_id', auth()->id())
                 ->count();
-            array_push($receitasPorMes, $count);
+            array_push($receitasPorMes, $countReceita);
         }
 
         return [
             'receitasPorMes' => $receitasPorMes,
             'despesasPorMes' => $despesasPorMes,
-            'meses' => $meses
+            'meses'          => $meses
         ];
     }
 

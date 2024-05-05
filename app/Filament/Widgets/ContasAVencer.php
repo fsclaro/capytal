@@ -38,7 +38,7 @@ class ContasAVencer extends BaseWidget
                     ->color(fn (string $state): string => match ($state) {
                         'RECEITA' => 'success',
                         'DESPESA' => 'danger',
-                        default => 'gray',
+                        default   => 'gray',
                     })
                     ->sortable()
                     ->searchable(),

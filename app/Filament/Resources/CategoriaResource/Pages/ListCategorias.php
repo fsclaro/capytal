@@ -61,7 +61,7 @@ class ListCategorias extends ListRecords
                     }
                 )
                 ->badge(function (Categoria $query) {
-                   return $query->whereIn('user_id', [1, Auth::id()])->where('tipo', 'DESPESA')->count();
+                    return $query->whereIn('user_id', [1, Auth::id()])->where('tipo', 'DESPESA')->count();
                 })
                 ->badgeColor('warning'),
 

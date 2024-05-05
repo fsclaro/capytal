@@ -6,15 +6,12 @@ use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
-use Livewire\Livewire;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
-use App\Models\Categoria;
 use App\Models\Movimento;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Fieldset;
@@ -26,18 +23,16 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\MovimentoResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\MovimentoResource\RelationManagers;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class MovimentoResource extends Resource
 {
     protected static ?string $model = Movimento::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
-    protected static ?string $navigationGroup = 'Movimentação Financeira';
-    protected static ?string $modelLabel = 'Lançamento';
-    protected static ?string $pluralModelLabel = 'Lançamentos';
+    protected static ?string $navigationIcon      = 'heroicon-o-banknotes';
+    protected static ?string $navigationGroup     = 'Movimentação Financeira';
+    protected static ?string $modelLabel          = 'Lançamento';
+    protected static ?string $pluralModelLabel    = 'Lançamentos';
     protected static bool $hasTitleCaseModelLabel = false;
 
     // public static function getNavigationBadge(): ?string
@@ -63,7 +58,7 @@ class MovimentoResource extends Resource
         return $form
             ->schema([
                 Fieldset::make('Detalhes do Lançamento')->schema([
-                    Forms\Components\TextInput::make('descricao')
+                    TextInput::make('descricao')
                         ->label('Descrição')
                         ->hint('Informe a descrição do lançamento')
                         ->hintColor('success')
@@ -71,7 +66,7 @@ class MovimentoResource extends Resource
                         ->columnSpanFull()
                         ->maxLength(255),
 
-                    Forms\Components\Select::make('tipo_movimento')
+                    Select::make('tipo_movimento')
                         ->label('Tipo')
                         ->native(false)
                         ->options([
@@ -83,7 +78,7 @@ class MovimentoResource extends Resource
                         ->columnSpan(2)
                         ->required(),
 
-                    Forms\Components\Select::make('categoria_id')
+                    Select::make('categoria_id')
                         ->label('Categoria')
                         ->columnSpan(4)
                         ->hint('Escolha um item da lista ou cadastre um novo')
@@ -102,7 +97,7 @@ class MovimentoResource extends Resource
                                 ->whereIn('user_id', [1, Auth::id()]);
                         })
                         ->createOptionForm([
-                            Forms\Components\Select::make('tipo')
+                            Select::make('tipo')
                                 ->label('Tipo')
                                 ->options([
                                     'RECEITA' => 'RECEITA',
@@ -119,7 +114,7 @@ class MovimentoResource extends Resource
                                 })
                                 ->required(),
 
-                            Forms\Components\TextInput::make('descricao')
+                            TextInput::make('descricao')
                                 ->label('Descricao')
                                 ->required()
                                 ->unique('categorias', 'descricao')
@@ -132,13 +127,13 @@ class MovimentoResource extends Resource
                                 ->default(Auth::user()->isAdmin() ? 'Sistema' : 'Pessoal'),
 
                             Forms\Components\Hidden::make('cor')
-                                ->default( function (Get $get) {
+                                ->default(function (Get $get) {
                                     return $get('tipo') === 'RECEITA' ? 'success' : 'danger';
                                 }),
                         ])
                     ,
 
-                    Forms\Components\Select::make('tipo_documento_id')
+                    Select::make('tipo_documento_id')
                         ->label('Tipo de Documento')
                         ->relationship('tipo_documento', 'descricao', modifyQueryUsing: fn (Builder $query) => $query->whereIn('user_id', [1, Auth::id()]))
                         ->required()
@@ -148,7 +143,7 @@ class MovimentoResource extends Resource
                         ->optionsLimit(1000)
                         ->columnSpan(2)
                         ->createOptionForm([
-                            Forms\Components\TextInput::make('descricao')
+                            TextInput::make('descricao')
                                 ->label('Descrição')
                                 ->required()
                                 ->maxLength(255)
@@ -167,7 +162,7 @@ class MovimentoResource extends Resource
                         ->default(now())
                         ->required(),
 
-                    Forms\Components\TextInput::make('vl_vencto')
+                    TextInput::make('vl_vencto')
                         ->label('Valor')
                         ->prefix('R$')
                         ->required()
@@ -176,7 +171,7 @@ class MovimentoResource extends Resource
                 ])->columns(6),
 
                 Fieldset::make('Detalhes do pagamento')->schema([
-                    Forms\Components\Select::make('conta_id')
+                    Select::make('conta_id')
                         ->label('Conta de Pagamento')
                         ->relationship('conta', 'descricao', modifyQueryUsing: fn (Builder $query) => $query->whereIn('user_id', [1, Auth::id()]))
                         ->required()
@@ -187,7 +182,7 @@ class MovimentoResource extends Resource
                         ->preload()
                         ->columnSpan(2)
                         ->createOptionForm([
-                            Forms\Components\TextInput::make('descricao')
+                            TextInput::make('descricao')
                                 ->label('Descrição')
                                 ->required()
                                 ->maxLength(255)
@@ -196,13 +191,13 @@ class MovimentoResource extends Resource
                                 ->default(Auth::user()->id)
                         ]),
 
-                    Forms\Components\TextInput::make('vl_pagto')
+                    TextInput::make('vl_pagto')
                         ->label('Valor Pago')
                         ->prefix('R$')
                         ->columnSpan(2)
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
 
-                    Forms\Components\DatePicker::make('dt_pagto')
+                    DatePicker::make('dt_pagto')
                         ->label('Data de Pagamento')
                         ->columnSpan(2),
                 ])->columns(6),
@@ -224,7 +219,7 @@ class MovimentoResource extends Resource
                     ->color(fn (string $state): string => match ($state) {
                         'RECEITA' => 'success',
                         'DESPESA' => 'danger',
-                        default => 'gray',
+                        default   => 'gray',
                     })
                     ->sortable()
                     ->searchable(),
@@ -240,7 +235,7 @@ class MovimentoResource extends Resource
                     ->wrap()
                     ->color(fn (string $state): string => match ($state) {
                         'Conta não definida' => 'danger',
-                        default => 'gray',
+                        default              => 'gray',
                     })
                     ->sortable()
                     ->searchable()
@@ -345,9 +340,9 @@ class MovimentoResource extends Resource
                     ->label('Situação')
                     ->searchable()
                     ->options([
-                        'contas_pagas' => 'Contas pagas',
+                        'contas_pagas'     => 'Contas pagas',
                         'contas_nao_pagas' => 'Contas não pagas',
-                        'contas_vencidas' => 'Contas vencidas',
+                        'contas_vencidas'  => 'Contas vencidas',
                     ])
                     ->query(function (Builder $query, array $data) {
                         if (!is_null($data['value'])) {
@@ -370,8 +365,8 @@ class MovimentoResource extends Resource
                         ->visible(fn (Movimento $movimento) => is_null($movimento->dt_pagto))
                         ->action(
                             function (Movimento $movimento) {
-                                $movimento->dt_pagto = $movimento->dt_vencto;
-                                $movimento->vl_pagto = $movimento->vl_vencto;
+                                $movimento->dt_pagto   = $movimento->dt_vencto;
+                                $movimento->vl_pagto   = $movimento->vl_vencto;
                                 $movimento->updated_at = now();
                                 $movimento->save();
                             }
@@ -383,8 +378,8 @@ class MovimentoResource extends Resource
                         ->visible(fn (Movimento $movimento) => !is_null($movimento->dt_pagto))
                         ->action(
                             function (Movimento $movimento) {
-                                $movimento->dt_pagto = null;
-                                $movimento->vl_pagto = null;
+                                $movimento->dt_pagto   = null;
+                                $movimento->vl_pagto   = null;
                                 $movimento->updated_at = now();
                                 $movimento->save();
                             }
@@ -407,8 +402,8 @@ class MovimentoResource extends Resource
                             $records->each(function ($record) {
                                 if (is_null($record->dt_pagto)) {
                                     $record->update([
-                                        'dt_pagto' => $record->dt_vencto,
-                                        'vl_pagto' => $record->vl_vencto,
+                                        'dt_pagto'   => $record->dt_vencto,
+                                        'vl_pagto'   => $record->vl_vencto,
                                         'updated_at' => now(),
                                     ]);
                                 }
@@ -424,8 +419,8 @@ class MovimentoResource extends Resource
                             $records->each(function ($record) {
                                 if (!is_null($record->dt_pagto)) {
                                     $record->update([
-                                        'dt_pagto' => null,
-                                        'vl_pagto' => null,
+                                        'dt_pagto'   => null,
+                                        'vl_pagto'   => null,
                                         'updated_at' => now(),
                                     ]);
                                 }
@@ -448,9 +443,9 @@ class MovimentoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMovimentos::route('/'),
+            'index'  => Pages\ListMovimentos::route('/'),
             'create' => Pages\CreateMovimento::route('/create'),
-            'edit' => Pages\EditMovimento::route('/{record}/edit'),
+            'edit'   => Pages\EditMovimento::route('/{record}/edit'),
         ];
     }
 }

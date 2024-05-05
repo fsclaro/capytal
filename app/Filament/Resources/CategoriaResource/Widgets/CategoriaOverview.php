@@ -11,7 +11,7 @@ class CategoriaOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $total = Categoria::whereIn('user_id', [1, Auth::user()->id])->count();
+        $total   = Categoria::whereIn('user_id', [1, Auth::user()->id])->count();
         $receita = Categoria::whereIn('user_id', [1, Auth::user()->id])->where('tipo', 'RECEITA')->count();
         $despesa = Categoria::whereIn('user_id', [1, Auth::user()->id])->where('tipo', 'DESPESA')->count();
 

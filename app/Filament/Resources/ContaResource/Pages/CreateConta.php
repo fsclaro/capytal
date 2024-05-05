@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\ContaResource\Pages;
 
-use Filament\Actions;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\ContaResource;
 use Filament\Resources\Pages\CreateRecord;

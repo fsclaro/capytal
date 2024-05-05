@@ -6,11 +6,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use App\Filament\Pages\Profile;
-use Filament\Navigation\MenuItem;
-use Filament\Support\Colors\Color;
-use Illuminate\Support\Facades\Auth;
-use App\Filament\Pages\Auth\Register;
-use App\Filament\Widgets\StatsOverview;
 use App\Http\Middleware\FilamentSettings;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -42,9 +37,9 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarFullyCollapsibleOnDesktop()
             ->favicon('images/favicon/favicon-32x32.png')
             ->colors([
-                'danger' => auth()->user()?->settings['colors']['danger'] ?? config('filament.theme.colors.danger'),
-                'gray' => auth()->user()?->settings['colors']['gray'] ?? config('filament.theme.colors.gray'),
-                'info' => auth()->user()?->settings['colors']['info'] ?? config('filament.theme.colors.info'),
+                'danger'  => auth()->user()?->settings['colors']['danger'] ?? config('filament.theme.colors.danger'),
+                'gray'    => auth()->user()?->settings['colors']['gray'] ?? config('filament.theme.colors.gray'),
+                'info'    => auth()->user()?->settings['colors']['info'] ?? config('filament.theme.colors.info'),
                 'success' => auth()->user()?->settings['colors']['success'] ?? config('filament.theme.colors.success'),
                 'warning' => auth()->user()?->settings['colors']['warning'] ?? config('filament.theme.colors.warning'),
                 'primary' => auth()->user()?->settings['colors']['primary'] ?? config('filament.theme.colors.primary'),

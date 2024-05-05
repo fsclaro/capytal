@@ -13,20 +13,17 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoriaResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CategoriaResource\RelationManagers;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-
 
 class CategoriaResource extends Resource
 {
     protected static ?string $model = Categoria::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Cadastros';
-    protected static ?string $modelLabel = 'Categoria';
-    protected static ?string $pluralModelLabel = 'Categorias';
-    protected static bool $hasTitleCaseModelLabel = false;
+    protected static ?string $navigationIcon       = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup      = 'Cadastros';
+    protected static ?string $modelLabel           = 'Categoria';
+    protected static ?string $pluralModelLabel     = 'Categorias';
+    protected static bool $hasTitleCaseModelLabel  = false;
     protected static int $globalSearchResultsLimit = 20;
 
     // public static function getNavigationBadge(): ?string
@@ -150,9 +147,9 @@ class CategoriaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategorias::route('/'),
+            'index'  => Pages\ListCategorias::route('/'),
             'create' => Pages\CreateCategoria::route('/create'),
-            'edit' => Pages\EditCategoria::route('/{record}/edit'),
+            'edit'   => Pages\EditCategoria::route('/{record}/edit'),
         ];
     }
 }

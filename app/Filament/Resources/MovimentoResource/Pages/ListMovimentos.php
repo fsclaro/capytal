@@ -33,20 +33,24 @@ class ListMovimentos extends ListRecords
     {
         return [
             'Todos' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
                     ->where('user_id', Auth::id())
                 )
-                ->badge(fn (Movimento $query) => $query
+                ->badge(
+                    fn (Movimento $query) => $query
                     ->where('user_id', Auth::id())->count()
                 )
                 ->badgeColor('success'),
 
             'Pagos' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
                     ->where('user_id', Auth::id())
                     ->whereNotNull('dt_pagto')
                 )
-                ->badge(fn (Movimento $query) => $query
+                ->badge(
+                    fn (Movimento $query) => $query
                     ->where('user_id', Auth::id())
                     ->whereNotNull('dt_pagto')
                     ->count()
@@ -54,12 +58,14 @@ class ListMovimentos extends ListRecords
                 ->badgeColor('primary'),
 
             'A Vencer' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
                     ->where('user_id', Auth::id())
                     ->where('dt_vencto', '>=', now())
                     ->whereNull('dt_pagto')
                 )
-                ->badge(fn (Movimento $query) => $query
+                ->badge(
+                    fn (Movimento $query) => $query
                     ->where('user_id', Auth::id())
                     ->where('dt_vencto', '>=', now())
                     ->whereNull('dt_pagto')
@@ -68,12 +74,14 @@ class ListMovimentos extends ListRecords
                 ->badgeColor('warning'),
 
             'Vencidas' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
                     ->where('user_id', Auth::id())
                     ->where('dt_vencto', '<', now())
                     ->whereNull('dt_pagto')
                 )
-                ->badge(fn (Movimento $query) => $query
+                ->badge(
+                    fn (Movimento $query) => $query
                     ->where('user_id', Auth::id())
                     ->where('dt_vencto', '<', now())
                     ->whereNull('dt_pagto')

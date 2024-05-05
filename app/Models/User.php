@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
-use Filament\Facades\Filament;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
@@ -60,12 +59,12 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         parent::boot();
 
         static::creating(function ($user) {
-            $user->is_admin = false;
-            $user->is_active = true;
+            $user->is_admin          = false;
+            $user->is_active         = true;
             $user->email_verified_at = now();
-            $user->created_at = now();
-            $user->updated_at = now();
-            $user->settings = null;
+            $user->created_at        = now();
+            $user->updated_at        = now();
+            $user->settings          = null;
         });
     }
 

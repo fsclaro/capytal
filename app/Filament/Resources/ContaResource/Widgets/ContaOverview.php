@@ -11,7 +11,7 @@ class ContaOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $total = Conta::whereIn('user_id', [1, Auth::user()->id])->count();
+        $total   = Conta::whereIn('user_id', [1, Auth::user()->id])->count();
         $sistema = Conta::whereIn('user_id', [1, Auth::user()->id])->where('dominio', 'Sistema')->count();
         $pessoal = Conta::whereIn('user_id', [1, Auth::user()->id])->where('dominio', 'Pessoal')->count();
 

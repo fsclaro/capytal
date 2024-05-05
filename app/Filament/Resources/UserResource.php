@@ -15,23 +15,20 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ColorPicker;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\UserResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
-use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'Administração';
-    protected static ?int $navigationSort = 1;
-    protected static ?string $modelLabel = 'Usuário';
-    protected static ?string $pluralModelLabel = 'Usuários';
+    protected static ?string $navigationIcon      = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup     = 'Administração';
+    protected static ?int $navigationSort         = 1;
+    protected static ?string $modelLabel          = 'Usuário';
+    protected static ?string $pluralModelLabel    = 'Usuários';
     protected static bool $hasTitleCaseModelLabel = false;
 
     // public static function getNavigationBadge(): ? string
@@ -133,7 +130,7 @@ class UserResource extends Resource
                     ->circular()
                     ->width('30px')
                     ->height('30px')
-                    ,
+                ,
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome do Usuário')
                     ->sortable()
@@ -258,9 +255,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index'  => Pages\ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit'   => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

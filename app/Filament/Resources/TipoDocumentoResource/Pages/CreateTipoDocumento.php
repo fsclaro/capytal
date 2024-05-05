@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\TipoDocumentoResource\Pages;
 
-use Filament\Actions;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\TipoDocumentoResource;

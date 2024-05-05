@@ -37,19 +37,19 @@ class MovimentoChart002 extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Receitas',
-                    'data' => $data['receitasPorMes'],
-                    'borderColor' => 'rgb(54, 162, 235)'
+                    'label'       => 'Receitas',
+                    'data'        => $data['receitasPorMes'],
+                    'borderColor' => auth()->user()->settings['colors']['primary']
                 ],
                 [
-                    'label' => 'Despesas',
-                    'data' => $data['despesasPorMes'],
-                    'borderColor' => 'rgb(255, 99, 132)'
+                    'label'       => 'Despesas',
+                    'data'        => $data['despesasPorMes'],
+                    'borderColor' => auth()->user()->settings['colors']['danger']
                 ],
                 [
-                    'label' => 'Saldo',
-                    'data' => $data['saldoPorMes'],
-                    'borderColor' => 'rgb(75, 192, 192)'
+                    'label'       => 'Saldo',
+                    'data'        => $data['saldoPorMes'],
+                    'borderColor' => auth()->user()->settings['colors']['success']
                 ]
             ],
             'labels' => $data['meses']
@@ -65,35 +65,35 @@ class MovimentoChart002 extends ChartWidget
     {
         $receitasPorMes = [];
         $despesasPorMes = [];
-        $saldoPorMes = [];
-        $ano = $this->filter;
+        $saldoPorMes    = [];
+        $ano            = $this->filter;
 
         $meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-        for($mes=1; $mes<=12; $mes++) {
-                $soma = Movimento::whereMonth('dt_vencto', $mes)
-                    ->whereYear('dt_vencto', $ano)
-                    ->where('tipo_movimento', 'DESPESA')
-                    ->where('user_id', auth()->id())
-                    ->sum('vl_vencto');
-                array_push($despesasPorMes,$soma);
+        for($mes = 1; $mes <= 12; $mes++) {
+            $somaDespesa = Movimento::whereMonth('dt_vencto', $mes)
+                ->whereYear('dt_vencto', $ano)
+                ->where('tipo_movimento', 'DESPESA')
+                ->where('user_id', auth()->id())
+                ->sum('vl_vencto');
+            array_push($despesasPorMes, $somaDespesa);
 
-                $soma = Movimento::whereMonth('dt_vencto', $mes)
-                    ->whereYear('dt_vencto',$ano)
-                    ->where('tipo_movimento', 'RECEITA')
-                    ->where('user_id', auth()->id())
-                    ->sum('vl_vencto');
-                array_push($receitasPorMes,$soma);
+            $somaReceita = Movimento::whereMonth('dt_vencto', $mes)
+                ->whereYear('dt_vencto', $ano)
+                ->where('tipo_movimento', 'RECEITA')
+                ->where('user_id', auth()->id())
+                ->sum('vl_vencto');
+            array_push($receitasPorMes, $somaReceita);
 
-                $saldo = $soma - $despesasPorMes[$mes-1];
-                array_push($saldoPorMes,$saldo);
+            $saldo = $somaReceita - $somaDespesa;
+            array_push($saldoPorMes, $saldo);
         }
 
         return [
             'receitasPorMes' => $receitasPorMes,
             'despesasPorMes' => $despesasPorMes,
-            'saldoPorMes' => $saldoPorMes,
-            'meses' => $meses
+            'saldoPorMes'    => $saldoPorMes,
+            'meses'          => $meses
         ];
     }
 
