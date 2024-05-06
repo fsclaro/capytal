@@ -23,6 +23,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\MovimentoResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class MovimentoResource extends Resource
@@ -427,6 +428,7 @@ class MovimentoResource extends Resource
                             });
                         })
                         ->deselectRecordsAfterCompletion(),
+                    ExportBulkAction::make()->label('Exportar para Excel'),
 
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),

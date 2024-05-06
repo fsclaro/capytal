@@ -26,11 +26,6 @@ class CategoriaResource extends Resource
     protected static bool $hasTitleCaseModelLabel  = false;
     protected static int $globalSearchResultsLimit = 20;
 
-    // public static function getNavigationBadge(): ?string
-    // {
-    //     return static::getModel()::whereIn('user_id', [1, Auth::id()])->count();
-    // }
-
     public static function form(Form $form): Form
     {
         return $form

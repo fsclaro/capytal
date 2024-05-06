@@ -13,6 +13,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ContaResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class ContaResource extends Resource
 {
@@ -101,9 +102,10 @@ class ContaResource extends Resource
                 ]),
             ])
             ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
+                    ExportBulkAction::make()->label('Exportar para Excel'),
                 //     Tables\Actions\DeleteBulkAction::make(),
-                // ]),
+                ]),
             ]);
     }
 
