@@ -99,8 +99,8 @@ class MovimentoChart002 extends ChartWidget
 
     private function getAnos()
     {
-        $anos = DB::table('MOVIMENTOS')
-            ->selectRaw('DISTINCT YEAR(dt_vencto) AS anos')
+        $anos = DB::table('movimentos')
+            ->selectRaw('distinct year(dt_vencto) AS anos')
             ->orderBy('anos')
             ->get();
 
