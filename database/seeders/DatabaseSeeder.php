@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             ContaSeeder::class,
             CategoriaSeeder::class,
             TipoDocumentoSeeder::class,
-            MovimentoSeeder::class,
+            // MovimentoSeeder::class,
         ]);
     }
 }
