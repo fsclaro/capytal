@@ -41,7 +41,7 @@ class ListMovimentos extends ListRecords
                     fn (Movimento $query) => $query
                     ->where('user_id', Auth::id())->count()
                 )
-                ->badgeColor('success'),
+                ->badgeColor('primary'),
 
             'Pagos' => Tab::make()
                 ->modifyQueryUsing(
