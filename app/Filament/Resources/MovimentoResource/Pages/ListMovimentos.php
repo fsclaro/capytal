@@ -55,7 +55,7 @@ class ListMovimentos extends ListRecords
                     ->whereNotNull('dt_pagto')
                     ->count()
                 )
-                ->badgeColor('primary'),
+                ->badgeColor('success'),
 
             'A Vencer' => Tab::make()
                 ->modifyQueryUsing(
