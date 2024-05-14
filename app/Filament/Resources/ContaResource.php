@@ -104,7 +104,7 @@ class ContaResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ExportBulkAction::make()->label('Exportar para Excel'),
-                //     Tables\Actions\DeleteBulkAction::make(),
+                    //     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
