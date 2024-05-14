@@ -25,6 +25,7 @@ class CategoriaResource extends Resource
     protected static ?string $pluralModelLabel     = 'Categorias';
     protected static bool $hasTitleCaseModelLabel  = false;
     protected static int $globalSearchResultsLimit = 20;
+    protected static ?int $navigationSort          = 2;
 
     public static function form(Form $form): Form
     {

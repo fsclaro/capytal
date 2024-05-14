@@ -26,7 +26,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon      = 'heroicon-o-user-group';
     protected static ?string $navigationGroup     = 'Administração';
-    protected static ?int $navigationSort         = 1;
+    protected static ?int $navigationSort         = 3;
     protected static ?string $modelLabel          = 'Usuário';
     protected static ?string $pluralModelLabel    = 'Usuários';
     protected static bool $hasTitleCaseModelLabel = false;
@@ -129,8 +129,7 @@ class UserResource extends Resource
                     ->label('Foto')
                     ->circular()
                     ->width('30px')
-                    ->height('30px')
-                ,
+                    ->height('30px'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome do Usuário')
                     ->sortable()

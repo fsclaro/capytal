@@ -23,6 +23,7 @@ class TipoDocumentoResource extends Resource
     protected static ?string $modelLabel          = 'Tipo de Documento';
     protected static ?string $pluralModelLabel    = 'Tipos de Documentos';
     protected static bool $hasTitleCaseModelLabel = false;
+    protected static ?int $navigationSort         = 2;
 
     // public static function getNavigationBadge(): ? string
     // {

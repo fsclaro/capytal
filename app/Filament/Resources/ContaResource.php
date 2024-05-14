@@ -24,6 +24,7 @@ class ContaResource extends Resource
     protected static ?string $modelLabel          = 'Conta';
     protected static ?string $pluralModelLabel    = 'Contas';
     protected static bool $hasTitleCaseModelLabel = false;
+    protected static ?int $navigationSort         = 2;
 
     // public static function getNavigationBadge(): ? string
     // {

@@ -35,6 +35,7 @@ class MovimentoResource extends Resource
     protected static ?string $modelLabel          = 'Lançamento';
     protected static ?string $pluralModelLabel    = 'Lançamentos';
     protected static bool $hasTitleCaseModelLabel = false;
+    protected static ?int $navigationSort         = 1;
 
     // public static function getNavigationBadge(): ?string
     // {
