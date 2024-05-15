@@ -81,7 +81,15 @@ class MovimentoResource extends Resource
                         ->required(),
 
                     Select::make('categoria_id')
-                        ->label('Categoria')
+                        ->label(function (Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Categoria da Receita';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Categoria da Despesa';
+                            } else {
+                                return 'Categoria';
+                            }
+                        })
                         ->columnSpan(4)
                         ->hint('Escolha um item da lista ou cadastre um novo')
                         ->hintColor('success')
@@ -132,8 +140,7 @@ class MovimentoResource extends Resource
                                 ->default(function (Get $get) {
                                     return $get('tipo') === 'RECEITA' ? 'success' : 'danger';
                                 }),
-                        ])
-                    ,
+                        ]),
 
                     Select::make('tipo_documento_id')
                         ->label('Tipo de Documento')
@@ -159,22 +166,55 @@ class MovimentoResource extends Resource
                         ]),
 
                     DatePicker::make('dt_vencto')
-                        ->label('Data de Vencimento')
+                        ->reactive()
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Data de Recebimento';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Data de Vencimento';
+                            } else {
+                                return 'Data';
+                            }
+                        })
                         ->columnSpan(2)
                         ->default(now())
                         ->required(),
 
                     TextInput::make('vl_vencto')
-                        ->label('Valor')
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Valor a Receber';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Valor a Pagar';
+                            } else {
+                                return 'Valor';
+                            }
+                        })
                         ->prefix('R$')
                         ->required()
                         ->columnSpan(2)
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
                 ])->columns(6),
 
-                Fieldset::make('Detalhes do pagamento')->schema([
+                Fieldset::make(function(Get $get) {
+                    if ($get('tipo_movimento') === 'RECEITA') {
+                        return 'Detalhes do Recebimento';
+                    } elseif ($get('tipo_movimento') === 'DESPESA') {
+                        return 'Detalhes do Pagamento';
+                    } else {
+                        return 'Detalhes da Operação';
+                    }
+                })->schema([
                     Select::make('conta_id')
-                        ->label('Conta de Pagamento')
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Conta de Recebimento';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Conta de Pagamento';
+                            } else {
+                                return 'Conta';
+                            }
+                        })
                         ->relationship('conta', 'descricao', modifyQueryUsing: fn (Builder $query) => $query->whereIn('user_id', [1, Auth::id()]))
                         ->required()
                         ->optionsLimit(1000)
@@ -194,13 +234,29 @@ class MovimentoResource extends Resource
                         ]),
 
                     TextInput::make('vl_pagto')
-                        ->label('Valor Pago')
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Valor Recebido';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Valor Pago';
+                            } else {
+                                return 'Valor';
+                            }
+                        })
                         ->prefix('R$')
                         ->columnSpan(2)
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
 
                     DatePicker::make('dt_pagto')
-                        ->label('Data de Pagamento')
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Data do Recebimento';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Data do Pagamento';
+                            } else {
+                                return 'Data';
+                            }
+                        })
                         ->columnSpan(2),
                 ])->columns(6),
             ]);
