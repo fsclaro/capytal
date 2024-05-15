@@ -69,7 +69,7 @@ class MovimentoResource extends Resource
                         ->maxLength(255),
 
                     Select::make('tipo_movimento')
-                        ->label('Tipo')
+                        ->label('Tipo de Lançamento')
                         ->native(false)
                         ->options([
                             'RECEITA' => 'RECEITA',
