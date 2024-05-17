@@ -34,7 +34,12 @@ class CategoriaResource extends Resource
                 Fieldset::make()->schema([
                     Forms\Components\Select::make('tipo')
                         ->label('Tipo')
-                        ->columnSpan(1)
+                        ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 4,
+                            'md' => 4,
+                            'sm' => 4,
+                        ])
                         ->options([
                             'RECEITA' => 'RECEITA',
                             'DESPESA' => 'DESPESA',
@@ -44,7 +49,12 @@ class CategoriaResource extends Resource
 
                     Forms\Components\TextInput::make('descricao')
                         ->label('Descrição')
-                        ->columnSpan(3)
+                        ->columnSpan([
+                            'xl' => 3,
+                            'lg' => 4,
+                            'md' => 4,
+                            'sm' => 4,
+                        ])
                         ->required()
                         ->unique(ignoreRecord: true)
                         ->maxLength(255),

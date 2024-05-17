@@ -38,11 +38,14 @@ class TipoDocumentoResource extends Resource
                     Forms\Components\TextInput::make('descricao')
                         ->label('Descrição')
                         ->required()
-                        ->columnSpanFull()
+                        ->columnSpan([
+                            'xl' => 4,
+                            'lg' => 4,
+                            'md' => 4,
+                            'sm' => 4,
+                        ])
                         ->unique(ignoreRecord: true),
-
                 ]),
-
             ]);
     }
 

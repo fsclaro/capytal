@@ -44,14 +44,26 @@ class UserResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->label('Nome do Usuário')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 3,
+                            'md' => 3,
+                            'sm' => 3,
+                        ]),
 
                     Forms\Components\TextInput::make('email')
                         ->label('E-mail')
                         ->email()
                         ->required()
                         ->unique(ignoreRecord: true)
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 3,
+                            'md' => 3,
+                            'sm' => 3,
+                        ]),
 
                     Forms\Components\TextInput::make('password')
                         ->label('Senha')
@@ -59,7 +71,13 @@ class UserResource extends Resource
                         ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
                         ->maxLength(255)
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                        ->dehydrated(fn ($state) => filled($state)),
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 3,
+                            'md' => 3,
+                            'sm' => 3,
+                        ]),
 
                     FileUpload::make('avatar_url')
                         ->label('Foto do Perfil')
@@ -69,6 +87,12 @@ class UserResource extends Resource
                         ->columnSpanFull()
                         ->alignCenter()
                         ->directory('avatars')
+                        ->columnSpan([
+                            'xl' => 3,
+                            'lg' => 3,
+                            'md' => 3,
+                            'sm' => 3,
+                        ]),
                 ])->columns(3),
 
                 Fieldset::make('Perfil de Acesso')->schema([
@@ -76,13 +100,23 @@ class UserResource extends Resource
                         ->label('Este usuário será administrador?')
                         ->required()
                         ->default(false)
-                        ->columnSpan(1),
+                    ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 1,
+                            'md' => 2,
+                            'sm' => 2,
+                        ]),
 
                     Forms\Components\Toggle::make('is_active')
                         ->label('Este usuário está ativo?')
                         ->required()
                         ->default(true)
-                        ->columnSpan(1),
+                        ->columnSpan([
+                            'xl' => 1,
+                            'lg' => 1,
+                            'md' => 2,
+                            'sm' => 2,
+                        ]),
                 ])->columns(2),
 
                 Fieldset::make('settings')

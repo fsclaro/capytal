@@ -65,7 +65,12 @@ class MovimentoResource extends Resource
                         ->hint('Informe a descrição do lançamento')
                         ->hintColor('success')
                         ->required()
-                        ->columnSpanFull()
+                        ->columnSpan([
+                            'xl' => 6,
+                            'lg' => 6,
+                            'md' => 6,
+                            'sm' => 6,
+                        ])
                         ->maxLength(255),
 
                     Select::make('tipo_movimento')
@@ -77,7 +82,12 @@ class MovimentoResource extends Resource
                         ])
                         ->afterStateUpdated(fn (Set $set) => $set('categoria_id', null))
                         ->live()
-                        ->columnSpan(2)
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->required(),
 
                     Select::make('categoria_id')
@@ -90,13 +100,18 @@ class MovimentoResource extends Resource
                                 return 'Categoria';
                             }
                         })
-                        ->columnSpan(4)
                         ->hint('Escolha um item da lista ou cadastre um novo')
                         ->hintColor('success')
                         ->native(false)
                         ->preload()
                         ->required()
                         ->searchable()
+                        ->columnSpan([
+                            'xl' => 4,
+                            'lg' => 4,
+                            'md' => 4,
+                            'sm' => 6,
+                        ])
                         ->optionsLimit(1000)
                         ->relationship('categoria', 'descricao', modifyQueryUsing: function (Builder $query, Get $get, Set $set) {
                             if (is_null($get('tipo_movimento'))) {
@@ -150,7 +165,12 @@ class MovimentoResource extends Resource
                         ->preload()
                         ->searchable()
                         ->optionsLimit(1000)
-                        ->columnSpan(2)
+                                ->columnSpan([
+                                    'xl' => 2,
+                                    'lg' => 2,
+                                    'md' => 2,
+                                    'sm' => 6,
+                                ])
                         ->createOptionForm([
                             TextInput::make('descricao')
                                 ->label('Descrição')
@@ -176,7 +196,12 @@ class MovimentoResource extends Resource
                                 return 'Data';
                             }
                         })
-                        ->columnSpan(2)
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->default(now())
                         ->required(),
 
@@ -192,7 +217,12 @@ class MovimentoResource extends Resource
                         })
                         ->prefix('R$')
                         ->required()
-                        ->columnSpan(2)
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
                 ])->columns(6),
 
@@ -222,7 +252,12 @@ class MovimentoResource extends Resource
                         ->native(false)
                         ->searchable()
                         ->preload()
-                        ->columnSpan(2)
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->createOptionForm([
                             TextInput::make('descricao')
                                 ->label('Descrição')
@@ -244,7 +279,12 @@ class MovimentoResource extends Resource
                             }
                         })
                         ->prefix('R$')
-                        ->columnSpan(2)
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
 
                     DatePicker::make('dt_pagto')
@@ -257,7 +297,12 @@ class MovimentoResource extends Resource
                                 return 'Data';
                             }
                         })
-                        ->columnSpan(2),
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                 ])->columns(6),
             ]);
     }

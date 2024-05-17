@@ -39,7 +39,12 @@ class ContaResource extends Resource
                     Forms\Components\TextInput::make('descricao')
                         ->label('Descrição')
                         ->required()
-                        ->columnSpanFull()
+                        ->columnSpan([
+                            'xl' => 6,
+                            'lg' => 6,
+                            'md' => 6,
+                            'sm' => 12,
+                        ])
                         ->unique(ignoreRecord: true),
                 ])
             ]);
