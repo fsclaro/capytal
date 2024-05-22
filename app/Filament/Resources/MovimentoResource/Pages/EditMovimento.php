@@ -17,9 +17,18 @@ class EditMovimento extends EditRecord
         ];
     }
 
+    public function formatData($data)
+    {
+        list($dia, $mes, $ano) = explode('/', $data);
+        return $ano . '-' . $mes . '-' . $dia;
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['user_id'] = auth()->id();
+
+        $data['dt_vencto'] = $this->formatData($data['dt_vencto']);
+        $data['dt_pagto'] = $data['dt_pagto'] ? $this->formatData($data['dt_pagto']) : null;
 
         return $data;
     }

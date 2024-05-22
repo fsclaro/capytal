@@ -165,28 +165,29 @@ class MovimentoResource extends Resource
                         ->preload()
                         ->searchable()
                         ->optionsLimit(1000)
-                                ->columnSpan([
-                                    'xl' => 2,
-                                    'lg' => 2,
-                                    'md' => 2,
-                                    'sm' => 6,
-                                ])
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ])
                         ->createOptionForm([
                             TextInput::make('descricao')
                                 ->label('Descrição')
                                 ->required()
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true),
+
                             Forms\Components\Hidden::make('user_id')
                                 ->default(Auth::user()->id),
 
                             Forms\Components\Hidden::make('dominio')
                                 ->default(Auth::user()->isAdmin() ? 'Sistema' : 'Pessoal'),
-
                         ]),
 
                     DatePicker::make('dt_vencto')
                         ->reactive()
+                        ->format('d/m/Y')
                         ->label(function(Get $get) {
                             if ($get('tipo_movimento') === 'RECEITA') {
                                 return 'Data de Recebimento';
@@ -268,6 +269,24 @@ class MovimentoResource extends Resource
                                 ->default(Auth::user()->id)
                         ]),
 
+                    DatePicker::make('dt_pagto')
+                        ->format('d/m/Y')
+                        ->label(function(Get $get) {
+                            if ($get('tipo_movimento') === 'RECEITA') {
+                                return 'Data do Recebimento';
+                            } elseif ($get('tipo_movimento') === 'DESPESA') {
+                                return 'Data do Pagamento';
+                            } else {
+                                return 'Data';
+                            }
+                        })
+                        ->columnSpan([
+                            'xl' => 2,
+                            'lg' => 2,
+                            'md' => 2,
+                            'sm' => 6,
+                        ]),
+
                     TextInput::make('vl_pagto')
                         ->label(function(Get $get) {
                             if ($get('tipo_movimento') === 'RECEITA') {
@@ -286,23 +305,6 @@ class MovimentoResource extends Resource
                             'sm' => 6,
                         ])
                         ->currencyMask(thousandSeparator: '.', decimalSeparator: ',', precision: 2),
-
-                    DatePicker::make('dt_pagto')
-                        ->label(function(Get $get) {
-                            if ($get('tipo_movimento') === 'RECEITA') {
-                                return 'Data do Recebimento';
-                            } elseif ($get('tipo_movimento') === 'DESPESA') {
-                                return 'Data do Pagamento';
-                            } else {
-                                return 'Data';
-                            }
-                        })
-                        ->columnSpan([
-                            'xl' => 2,
-                            'lg' => 2,
-                            'md' => 2,
-                            'sm' => 6,
-                        ])
                 ])->columns(6),
             ]);
     }

@@ -100,7 +100,7 @@ class UserResource extends Resource
                         ->label('Este usuário será administrador?')
                         ->required()
                         ->default(false)
-                    ->columnSpan([
+                        ->columnSpan([
                             'xl' => 1,
                             'lg' => 1,
                             'md' => 2,
